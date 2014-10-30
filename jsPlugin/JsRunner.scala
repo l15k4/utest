@@ -21,7 +21,7 @@ class JsRunner(environment: JSEnv,
   def doStuff(selector: Seq[String], loggers: Seq[Logger], name: String): Unit = {
     val testRunnerFile =
       new MemVirtualJSFile("Generated test launcher file").withContent(s"""
-        PlatformShims().runSuite(
+        utest.PlatformShims().runSuite(
           $name(),
           ${listToJS(selector.toList)},
           ${listToJS(args.toList)}

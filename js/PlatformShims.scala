@@ -47,8 +47,8 @@ object PlatformShims {
                args: js.Array[String]) = {
     val res = utest.runSuite(
       suite,
-      path,
-      args,
+      path.toArray,
+      args.toArray,
       s => println("XXSecretXX/addCount/" + s),
       s => println("XXSecretXX/log/" + s),
       s => println("XXSecretXX/logFailure/" + s),

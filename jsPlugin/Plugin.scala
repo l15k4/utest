@@ -19,7 +19,6 @@ object Plugin extends sbt.Plugin{
       )
       val utestTestSettings =
         utestTestFrameworkSettings ++
-          inTask(packageStage)(utestTestFrameworkSettings) ++
           inTask(fastOptStage)(utestTestFrameworkSettings) ++
           inTask(fullOptStage)(utestTestFrameworkSettings)
       inConfig(Test)(utestTestSettings)
