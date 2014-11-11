@@ -60,7 +60,7 @@ class TestTreeSeq(tests: Tree[Test]) {
       val start = Deadline.now
       val tryResult = outerError.map(_.fold(Try(tests.value.TestThunkTree.run(path.toList)))(Failure(_)))
 
-      def matchError(t: Try[Any]): Option[SkippedOuterFailure] = t match {
+      def matchError(t: Any): Option[SkippedOuterFailure] = t match {
         case Success(_) => None
         case Failure(e: SkippedOuterFailure) => Some(e)
         case Failure(e) => Some(SkippedOuterFailure(strPath, e))
@@ -68,7 +68,7 @@ class TestTreeSeq(tests: Tree[Test]) {
       }
 
       val thisError = tryResult.flatMap {
-        case Success(f: Future[Try[Any] @unchecked]) =>
+        case Success(f: Future[_]) =>
           f.map(matchError).recover { case ex: Throwable => Some(SkippedOuterFailure(strPath, ex.getCause)) }
         case t =>
           Future.successful(matchError(t))
