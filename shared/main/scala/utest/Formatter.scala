@@ -39,9 +39,13 @@ class DefaultFormatter(color: Boolean = true,
   def prettyTruncate(r: Result, length: Int = truncate): String = {
 
     val colorStr  = if (r.value.isSuccess) Console.GREEN else Console.RED
-    val cutUnit =
-      if (r.value == Success(())) "Success"
-      else r.value.toString
+    val cutUnit = r.value match {
+      case Success(_) => "Success"
+      case Failure(ex) =>
+        val optCause = Option(ex.getCause).fold("")(cause => s" caused by '$cause'")
+        s"Failure('$ex'$optCause)"
+      case _ => r.value.toString
+    }
 
     val truncUnit =
       if (cutUnit.length > length) cutUnit.take(length) + "..."

@@ -69,7 +69,7 @@ class TestTreeSeq(tests: Tree[Test]) {
 
       val thisError = tryResult.flatMap {
         case Success(f: Future[_]) =>
-          f.map(matchError).recover { case ex: Throwable => Some(SkippedOuterFailure(strPath, ex.getCause)) }
+          f.map(matchError).recover { case ex: Throwable => Some(SkippedOuterFailure(strPath, ex)) }
         case t =>
           Future.successful(matchError(t))
       }
@@ -86,7 +86,7 @@ class TestTreeSeq(tests: Tree[Test]) {
 
       tryResult.flatMap{
         // Special-case tests which return a future, in order to wait for them to finish
-        case Success(f: Future[_]) => f.map(Success(_)).recover { case ex: Throwable => Failure(ex.getCause) }
+        case Success(f: Future[_]) => f.map(Success(_)).recover { case ex: Throwable => Failure(ex) }
         case Success(value) => Future.successful(Success(value))
         case Failure(ex) => Future.successful(Failure(ex))
       }.flatMap(res =>
