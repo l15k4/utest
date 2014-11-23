@@ -36,7 +36,8 @@ object Build extends sbt.Build{
   lazy val runner = project.settings(sharedSettings:_*)
                            .settings(
     libraryDependencies += "org.scala-sbt" % "test-interface" % "1.0",
-    name := "utest-runner"
+    name := "utest-runner",
+    scalaVersion := "2.10.4"
   )
 
   lazy val jsPlugin = project.in(file("jsPlugin"))
@@ -53,7 +54,7 @@ object Build extends sbt.Build{
   lazy val sharedSettings = Seq(
     organization := "com.lihaoyi",
     version := Plugin.utestVersion,
-    scalaVersion := "2.11.0",
+    scalaVersion := "2.11.2",
     // Sonatype2
     publishArtifact in Test := false,
     publishTo := Some("releases" at "https://oss.sonatype.org/service/local/staging/deploy/maven2"),

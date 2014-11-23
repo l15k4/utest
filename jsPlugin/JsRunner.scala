@@ -31,7 +31,7 @@ class JsRunner(environment: JSEnv,
     val logger = new SbtTestLoggerAccWrapper(loggers)
     try {
       // Actually execute test
-      environment.runJS(
+      environment.jsRunner(
         jsClasspath,
         testRunnerFile,
         logger,
@@ -58,7 +58,7 @@ class JsRunner(environment: JSEnv,
             }
           }
         }
-      )
+      ).run()
     } catch {
       case NonFatal(e) => logger.trace(e)
     }
